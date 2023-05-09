@@ -17,7 +17,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 
-def draw_circunference(win: Surface, pos: tuple, radius, gap=2):
+def draw_circunference(win: Surface, pos: tuple, radius, gap=2.0):
     pygame.draw.circle(win, WHITE, pos, radius)
     pygame.draw.circle(win, BLACK, pos, (radius - gap))
     pygame.display.update()
