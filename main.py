@@ -1,10 +1,11 @@
+from math import log2
 import pygame
 from pygame import Surface
 import time
 import random
-from threading import Thread
+from grid import Grid
 
-pygame.init()
+# pygame.init()
 
 WIDTH = 1600
 HEIGHT = WIDTH - 500
@@ -26,36 +27,39 @@ def draw_circunference(win: Surface, pos: tuple, radius, gap=2.0):
 def draw_wave(win: Surface, pos, max_radius):
 
     initial_radius = 5
-    for offset in range(2, 500):
-        # time.sleep(0.2)
-        new_gap = 10 - offset * 0.15
 
-        draw_circunference(win, pos, initial_radius + offset, gap=new_gap)
+    initial_gap = max_radius//20
+
+    for radius in range(initial_radius, max_radius):
+        new_gap = initial_gap - radius//20
+
+        draw_circunference(win, pos, radius, gap=new_gap)
         pygame.display.update()
 
     win.fill(BLACK)
 
-def spawn_wave(win: Surface, pos, max_radius):
-    new_thread = Thread(target=draw_wave, args=(win, pos, max_radius))
-    new_thread.start()
-
 
 def main(win):
+    grid = Grid(win, 50)
+    grid_data = grid.make_grid()
+
 
     running = True
     win.fill(BLACK)
 
     while (running):
+        grid.draw(grid_data)
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
                 running = False
 
             if pygame.mouse.get_pressed()[0]:
-                mouse_pos = list(pygame.mouse.get_pos())
-                max_radius = random.randint(200, 550)
-
-                spawn_wave(win, mouse_pos, max_radius)
+                pass
+                # mouse_pos = list(pygame.mouse.get_pos())
+                # max_radius = random.randint(200, 550)
+                #
+                # draw_wave(win, mouse_pos, max_radius)
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_c:
